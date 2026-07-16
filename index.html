@@ -84,7 +84,7 @@
         </div>
     </header>
 
-    <!-- 數據分析看塊 -->
+    <!-- 數據分析看板 -->
     <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
             <div>
@@ -176,7 +176,7 @@
         </div>
     </main>
 
-    <!-- 📦 全部庫存與待磨毛胚管理區 (新增功能) -->
+    <!-- 📦 全部庫存與待磨毛胚管理區 -->
     <section class="mt-8 bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
         <div class="p-5 bg-slate-900 border-b border-slate-800 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4">
             <div class="flex items-center gap-3">
@@ -213,16 +213,17 @@
         </div>
 
         <div class="overflow-x-auto">
-            <table class="w-full text-left table-fixed min-w-[1000px]">
+            <table class="w-full text-left table-fixed min-w-[1100px]">
                 <thead>
                     <tr class="bg-slate-100 text-slate-600 text-xs font-bold tracking-wider border-b border-slate-200">
-                        <th class="p-3 w-32">庫存編號</th>
-                        <th class="p-3 w-56">輪子細分規格</th>
-                        <th class="p-3 w-36">目前庫存狀態</th>
-                        <th class="p-3 w-32">存放位置</th>
-                        <th class="p-3 w-40">最後研磨完成時間</th>
-                        <th class="p-3 w-28 text-center action-col">庫存維護</th>
-                        <th class="p-3 w-44 text-center action-col">快捷排程 (送至看板)</th>
+                        <th class="p-3 w-28">庫存編號</th>
+                        <th class="p-3 w-48">輪子細分規格</th>
+                        <th class="p-3 w-28 text-center">何者機台</th>
+                        <th class="p-3 w-32">目前庫存狀態</th>
+                        <th class="p-3 w-28">存放位置</th>
+                        <th class="p-3 w-36">最後研磨完成時間</th>
+                        <th class="p-3 w-24 text-center action-col">庫存維護</th>
+                        <th class="p-3 w-40 text-center action-col">快捷排程 (送至看板)</th>
                     </tr>
                 </thead>
                 <tbody id="inventory-table-body" class="divide-y divide-slate-100 text-sm text-slate-700">
@@ -292,18 +293,23 @@
             { id: 103, seq: 3, machine: "ZH1", type: "工作輪 WR (粉末-20um)", process: "#120", shift: "B", note: "最小輪子 / 用於板面BA3", etf: "16:20", status: "待研磨", urgent: false, targetDate: "today" },
             { id: 105, seq: 4, machine: "ZH1", type: "中間輪 IMR 斜長140", process: "#60", shift: "A", note: "支撐BUR與工作輪中間", etf: "14:00", status: "品質檢驗", urgent: false, targetDate: "today" },
             { id: 401, seq: 1, machine: "ZH1", type: "工作輪 WR (粉末-平輪)", process: "#220", shift: "A", note: "【明日預排】早班備料", etf: "09:00", status: "待研磨", urgent: false, targetDate: "tomorrow" },
-            { id: 402, seq: 2, machine: "TL", type: "中間輪 IMR / Φ60", process: "常態", shift: "A", note: "【明日預排】待磨數量多提早排入", etf: "11:00", status: "待研磨", urgent: false, targetDate: "tomorrow" }
+            { id: 402, seq: 2, machine: "TL", type: "工作輪 WR / Φ20", process: "常態", shift: "A", note: "【明日預排】待磨數量多提早排入", etf: "11:00", status: "待研磨", urgent: false, targetDate: "tomorrow" }
         ];
 
-        // 廠內全部庫存資料 (與上方主排程有 linkId 連動)
+        // 廠內全部庫存資料（新增更多尺寸與對應機台資料測試）
         let inventoryData = [
             { invId: "WR-001", type: "工作輪 WR (M2-20um)", status: "研磨中", location: "A架-01", lastGrind: "2026/07/16 09:30", linkId: 101 },
             { invId: "WR-002", type: "工作輪 WR (M2-10um)", status: "待研磨", location: "A架-02", lastGrind: "2026/07/15 14:15", linkId: 102 },
             { invId: "WR-003", type: "工作輪 WR (粉末-20um)", status: "待研磨", location: "B架-05", lastGrind: "2026/07/15 09:40", linkId: 103 },
             { invId: "IMR-140", type: "中間輪 IMR 斜長140", status: "待研磨", location: "C架-03", lastGrind: "2026/07/14 16:20", linkId: 105 },
+            { invId: "IMR-100", type: "中間輪 IMR 斜長100", status: "待研磨", location: "C架-04", lastGrind: "2026/07/15 10:15", linkId: null },
+            { invId: "IMR-190", type: "中間輪 IMR 斜長190", status: "已完工", location: "C架-05", lastGrind: "2026/07/13 14:22", linkId: null },
+            { invId: "IMR-210", type: "中間輪 IMR 斜長210", status: "待研磨", location: "C架-06", lastGrind: "2026/07/12 11:40", linkId: null },
             { invId: "WR-005", type: "工作輪 WR (M2-平輪)", status: "已完工", location: "成品備用區-A", lastGrind: "2026/07/16 08:15", linkId: null },
             { invId: "WR-006", type: "工作輪 WR (粉末-平輪)", status: "待研磨", location: "B架-12", lastGrind: "2026/07/14 11:30", linkId: 401 },
-            { invId: "IMR-060", type: "中間輪 IMR / Φ60", status: "待研磨", location: "C架-08", lastGrind: "2026/07/13 15:50", linkId: 402 }
+            { invId: "WR-TL20", type: "工作輪 WR / Φ20", status: "待研磨", location: "D架-01", lastGrind: "2026/07/13 15:50", linkId: 402 },
+            { invId: "WR-TL130", type: "工作輪 WR / NO1.30", status: "已完工", location: "D架-02", lastGrind: "2026/07/15 16:10", linkId: null },
+            { invId: "WR-TL230", type: "工作輪 WR / NO2.30", status: "待研磨", location: "D架-03", lastGrind: "2026/07/12 09:30", linkId: null }
         ];
 
         function getPastDateStr(daysAgo) {
@@ -320,11 +326,34 @@
         let currentHistoryDayFilter = -1; 
         let viewDate = "today";
 
+        // 動態配對規格資料[cite: 1]
         const specMap = {
-            ZH1: ["工作輪 WR (M2-20um)", "工作輪 WR (M2-10um)", "工作輪 WR (M2-平輪)", "工作輪 WR (粉末-20um)", "工作輪 WR (粉末-10um)", "工作輪 WR (粉末-平輪)", "中間輪 IMR 斜長140", "支撐輪 BUR"],
-            TL: ["工作輪 WR / Φ20", "中間輪 IMR / Φ36", "中間輪 IMR / Φ60"],
-            SP: ["工作輪 WR (1000/160)", "工作輪 WR (1000/50)", "工作輪 WR (60/50)", "工作輪 WR (320/50)"]
+            ZH1: [
+                "工作輪 WR (M2-20um)", "工作輪 WR (M2-10um)", "工作輪 WR (M2-平輪)", 
+                "工作輪 WR (粉末-20um)", "工作輪 WR (粉末-10um)", "工作輪 WR (粉末-平輪)", 
+                "中間輪 IMR 斜長140", "中間輪 IMR 斜長100", "中間輪 IMR 斜長190", "中間輪 IMR 斜長210", 
+                "支撐輪 BUR"
+            ],
+            TL: [
+                "工作輪 WR / Φ20", "工作輪 WR / NO1.30", "工作輪 WR / NO2.30", 
+                "中間輪 IMR / Φ36", "中間輪 IMR / Φ60"
+            ],
+            SP: [
+                "工作輪 WR (1000/160)", "工作輪 WR (1000/50)", "工作輪 WR (60/50)", "工作輪 WR (320/50)"
+            ]
         };
+
+        // 智慧型規格比對函式（用來判斷庫存所屬機台並套用顏色）
+        function getMachineBySpec(spec) {
+            if (!spec) return "未知";
+            if (spec.includes("Φ20") || spec.includes("NO1.30") || spec.includes("NO2.30") || spec.includes("Φ36") || spec.includes("Φ60")) {
+                return "TL";
+            }
+            if (spec.includes("1000/") || spec.includes("320/") || spec.includes("60/50")) {
+                return "SP";
+            }
+            return "ZH1"; // 其他預設為 ZH1 項目
+        }
 
         // 權限切換核心函數
         function switchRole(role) {
@@ -653,7 +682,7 @@
             activeViewData.sort((a, b) => a.seq - b.seq);
 
             if (isUrgent) {
-                // 【核心修正點】：尋找目前正在「進行中」的工單索引
+                // 尋找目前正在「進行中」的工單索引
                 const runningIdx = activeViewData.findIndex(x => x.status === "進行中");
                 
                 if (runningIdx !== -1) {
@@ -691,7 +720,7 @@
             switchDateView(targetDate);
         }
 
-        // 一鍵完成研磨快捷鍵 (強化待研磨極完工功能)
+        // 一鍵完成研磨快捷鍵 (強化待研磨完工功能)
         function quickCompleteGrinding(id) {
             if (currentRole !== "leader") return alert("權限不足！");
             updateStatus(id, "已完工");
@@ -709,7 +738,7 @@
             if (item) { 
                 item.status = value; 
                 
-                // 🔄 同步連動庫存狀態
+                // 同步連動庫存狀態
                 let invItem = inventoryData.find(inv => inv.linkId === id);
                 if (invItem) {
                     if (value === "進行中") {
@@ -741,7 +770,7 @@
                 shift: item.shift, note: item.note + " (封存)", status: "已完成", daysAgo: 0
             });
 
-            // 🔄 結案解綁庫存，將庫存品設為完工儲備
+            // 結案解綁庫存，將庫存品設為完工儲備
             let invItem = inventoryData.find(inv => inv.linkId === id);
             if (invItem) {
                 invItem.status = "已完工";
@@ -759,7 +788,7 @@
             alert("工單已成功封存！庫存轉為【已完工備用】狀態。");
         }
 
-        /* ================= 📦 全部庫存表邏輯 (新增部分) ================= */
+        /* ================= 📦 全部庫存表邏輯 ================= */
         
         function filterInventory(status) {
             currentInvFilter = status;
@@ -800,12 +829,20 @@
                     statusBadge = "<span class='px-2 py-0.5 rounded text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-300'>已完工備用</span>";
                 }
 
+                // 計算並取得該項規格所屬之機台，並製作漂亮的對比徽章
+                let mac = getMachineBySpec(inv.type);
+                let macBadge = "bg-slate-100 text-slate-600 border border-slate-200";
+                if (mac === "ZH1") macBadge = "bg-emerald-50 text-emerald-600 border border-emerald-200";
+                else if (mac === "TL") macBadge = "bg-blue-50 text-blue-600 border border-blue-200";
+                else if (mac === "SP") macBadge = "bg-purple-50 text-purple-600 border border-purple-200";
+
                 const tr = document.createElement("tr");
                 tr.className = "hover:bg-slate-50 transition-colors";
 
                 let rowHtml = `
                     <td class="p-3 font-mono font-bold text-slate-700">${inv.invId}</td>
                     <td class="p-3 font-semibold text-slate-800 truncate max-w-[220px]" title="${inv.type}">${inv.type}</td>
+                    <td class="p-3 text-center"><span class="px-2.5 py-0.5 rounded-md text-xs font-bold ${macBadge}">${mac}</span></td>
                     <td class="p-3">${statusBadge}</td>
                 `;
 
@@ -880,7 +917,7 @@
             }
         }
 
-        // 從全部庫存表快捷建立排程
+        // 從全部庫存表快捷建立排程[cite: 1]
         function quickDispatchInventory(invId, isUrgent = false) {
             if (currentRole !== "leader") return alert("權限不足！");
             const invItem = inventoryData.find(inv => inv.invId === invId);
@@ -891,13 +928,8 @@
                 return;
             }
 
-            // 智能判斷機台
-            let recommendedMachine = "ZH1";
-            if (invItem.type.includes("Φ20") || invItem.type.includes("Φ36") || invItem.type.includes("Φ60")) {
-                recommendedMachine = "TL";
-            } else if (invItem.type.includes("1000/") || invItem.type.includes("320/")) {
-                recommendedMachine = "SP";
-            }
+            // 動態智慧匹配推薦機台
+            const recommendedMachine = getMachineBySpec(invItem.type);
 
             const actionText = isUrgent ? "🔥 【緊急插單】(插在目前研磨中下方)" : "📋 【一般排程】(排在今日末尾)";
             const confirmDispatch = confirm(`確認要將庫存【${invItem.invId}】進行 ${actionText} 嗎？`);
